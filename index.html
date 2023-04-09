@@ -17,8 +17,9 @@
           border: 1px solid black;
           border-collapse: collapse;
         }
-        .button {
+        .button1 {
           font-family: Arial, Helvetica, sans-serif;
+          font-weight: bold;
           background-color: #217153;
           border: 2px solid #dcf1f1;
           color: white;
@@ -26,9 +27,31 @@
           text-align: center;
           text-decoration: none;
           display: inline-block;
-          font-size: 16px;
-          width: 100%;
+          font-size: 20px;
+          width: 70%;
           margin-bottom: 5px;
+        }
+        .button2 {
+          font-family: Arial, Helvetica, sans-serif;
+          font-weight: bold;
+          background-color: #217153;
+          border: 2px solid #dcf1f1;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 20px;
+          width: 29%;
+          margin-bottom: 5px;
+        }
+        input[type=text] {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          box-sizing: border-box;
+          border: 2px solid rgb(48, 177, 155);
+          border-radius: 4px;
         }
         #myTable {
           font-family: Arial, Helvetica, sans-serif;
@@ -57,7 +80,8 @@
     
 
     <h1>Test Site</h1>
-    <button id="SubmitButton", onclick="DoAll()">Click</button>
+    <button class="button button1" id="SubmitButton", onclick="DoAll()">Click</button>
+    <button class="button button2" id="DeleteButton", onclick="DeleteData()">Delete</button>
     <input id="Inputbox" type="text">
     <table style="width:100%" id="myTable">
       <thead>
@@ -205,10 +229,12 @@
           //console.log("Insert data");
           const date = new Date();
           set(ref(db, ("MessageData/"+date.getTime()).toString()),{
-              Date: GetDateOnClick(),
-              Time: GetTimeOnClick(),
-              Message: inputbox.value
-          });/*
+            Date: GetDateOnClick(),
+            Time: GetTimeOnClick(),
+            Message: inputbox.value
+          });
+          inputbox.value = "";
+          /*
           .then(()=>{
               alert("data stored successfully");
           })
@@ -249,14 +275,16 @@
         }
       }
       //---------DELETE DATA FUNCTION----------------
-      function DeleteData(){
-          remove(ref(db, "TheStudents/"+rollbox.value))
+      window.DeleteData=()=>{
+          remove(ref(db, "MessageData/"));
+          ResetShowTable();
+          /*
           .then(()=>{
               alert("data removed successfully");
           })
           .catch((error)=>{
               alert("unsuccessful, error"+error);
-          });
+          });*/
       }
       //---------RESET AND SHOW TABLE
       window.ResetShowTable=()=>{
@@ -270,7 +298,6 @@
         ResetTable();
         ShowTable();
       }
-      //window.addEventListener('onload', ResetShowTable);
       //---------Assign Events To Btns---------------
       //submitButton.addEventListener('click', ResetTable);
       //submitButton.addEventListener('click', RefreshPage);
