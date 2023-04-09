@@ -57,7 +57,7 @@
     
 
     <h1>Test Site</h1>
-    <button id="SubmitButton">Click</button>
+    <button id="SubmitButton", onclick="DoAll()">Click</button>
     <input id="Inputbox" type="text">
     <table style="width:100%" id="myTable">
       <thead>
@@ -190,17 +190,19 @@
       var messageString = inputbox.value;//GetMessageOnClick();
 
       var submitButton = document.getElementById("SubmitButton");
-      const date = new Date();
-      var path = date.getTime();
-      var parentString = ("MessageData/"+path).toString();
+      //const date = new Date();
+      //var path = date.getTime();
+      //var parentString = ("MessageData/"+path).toString();
 
       var table = document.getElementById("myTable");
 
       //-----------INSERT DATA FUNCTION--------------
       function InsertData(){
-          set(ref(db, parentString),{
-              Date: dateString,
-              Time: timeString,
+          //console.log("Insert data");
+          const date = new Date();
+          set(ref(db, ("MessageData/"+date.getTime()).toString()),{
+              Date: GetDateOnClick(),
+              Time: GetTimeOnClick(),
               Message: inputbox.value
           });/*
           .then(()=>{
@@ -242,16 +244,6 @@
         }).catch((error) => {
           console.error(error);
         });
-        /*
-        var table = document.getElementById("myTable");
-        var row = table.insertRow(1);
-        var dateCell = row.insertCell(0);
-        var timeCell = row.insertCell(1);
-        var messageCell = row.insertCell(2);
-        dateCell.innerHTML = dateString;
-        timeCell.innerHTML = timeString;
-        messageCell.innerHTML = messageString;
-        */
       }
       //--------RESET TABLE--------------------------
       function ResetTable(){
@@ -275,14 +267,14 @@
           });
       }
 
-      function DoAll(){
+      window.DoAll=()=>{
+        //RefreshPage();
+        InsertData();
         //setTimeout(function(){
           ResetTable();
           ShowTable();
         //},3000);
-        InsertData();
         setTimeout(function(){
-          RefreshPage();
         }, 1000);
       }
 
@@ -291,7 +283,7 @@
       //submitButton.addEventListener('click', RefreshPage);
       //submitButton.addEventListener('click', InsertData);
       //submitButton.addEventListener('click', updateTable);
-      submitButton.addEventListener('click', DoAll);
+      //submitButton.addEventListener('click', DoAll);
       
     </script>
     
