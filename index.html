@@ -73,6 +73,10 @@
     </table>
 
     <script>
+    window.onload = function() {
+      console.log("Page has finished loading!");
+      ResetShowTable();
+    };
     function updateTable1(){
         const date = new Date();
         const day = numberFormat(date.getDate().toString(),2);
@@ -212,16 +216,6 @@
               alert("unsuccessful, error"+error);
           });*/
       }
-      //-----------REFRESH PAGE----------------------
-      function RefreshPage(){
-        window.location.reload();
-        /*
-        setTimeout(function(){
-          window.location.reload();
-        }, 1000);
-        ShowTable();
-        */
-      }
       //---------SHOW TABLE--------------------------
       function ShowTable(){
         const dbref = ref(db);
@@ -254,8 +248,6 @@
 
         }
       }
-      
-
       //---------DELETE DATA FUNCTION----------------
       function DeleteData(){
           remove(ref(db, "TheStudents/"+rollbox.value))
@@ -266,18 +258,19 @@
               alert("unsuccessful, error"+error);
           });
       }
-
-      window.DoAll=()=>{
-        //RefreshPage();
-        InsertData();
-        //setTimeout(function(){
-          ResetTable();
-          ShowTable();
-        //},3000);
-        setTimeout(function(){
-        }, 1000);
+      //---------RESET AND SHOW TABLE
+      window.ResetShowTable=()=>{
+        console.log("Reset Show Table");
+        ResetTable();
+        ShowTable();
       }
 
+      window.DoAll=()=>{
+        InsertData();
+        ResetTable();
+        ShowTable();
+      }
+      //window.addEventListener('onload', ResetShowTable);
       //---------Assign Events To Btns---------------
       //submitButton.addEventListener('click', ResetTable);
       //submitButton.addEventListener('click', RefreshPage);
